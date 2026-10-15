@@ -89,6 +89,46 @@ files) is intermediate.
 matching `mr_BP_comod` run. So you can redraw with different options at any
 time without re-resolving.
 
+### Interactive charts
+
+After a completed run, generate a self-contained HTML viewer:
+
+```sh
+python3 anss_interactive.py 30 -d output/alpha1-t30-l8 --all
+```
+
+Open `output/alpha1-t30-l8/30_interactive.html` in Safari, Chrome, or Firefox.
+No server, Python packages, or internet connection is needed. The viewer
+includes every completed degree-30 run in that directory, with a selector
+for the comodule and for the Adams–Novikov or algebraic Novikov view.
+For tables in the current directory, omit `-d`.
+
+```sh
+# One comodule, or several named comodules
+python3 anss_interactive.py 30 -c alpha_1
+python3 anss_interactive.py 30 -c alpha_1 -c sphere -o charts.html
+
+# Reproducible demo using the committed sample tables
+python3 anss_interactive.py 30 -d example_data --all -o output/demo.html
+```
+
+Drag to pan, scroll to zoom, and click a mark to inspect its bidegree,
+group, tower members, and recorded products. Search by a class name or a
+bidegree such as `11,1`. The toolbar controls labels, gridlines, products,
+and algebraic Novikov differentials. Arrow keys pan; `+`/`-` zoom; `0` fits
+the chart. SVG and JSON downloads are available inside the viewer.
+
+The converter reuses `anss_chart.py`'s parsing and tower grouping. Dashed
+rings retain the same lower-bound meaning, and bidegrees with potentially
+hidden extensions are identified in the inspector. Algebraic Novikov
+differentials appear only in that view; this does not compute Adams–Novikov
+differentials. Regenerate the HTML after recomputing tables.
+
+Interaction conventions are adapted from the MIT-licensed SeqSee visualizer
+vendored in Eva's [ANSS_prime3 commit f995e30](https://github.com/yqkewang/ANSS_prime3/commit/f995e30f327ce83304eda57768d2c8b4260b1fe3).
+See [visualizer/PROVENANCE.txt](visualizer/PROVENANCE.txt) for the adaptation
+and license details.
+
 ### Choosing the numbers
 
 `30` and `8` are **your choice**; nothing in the code prefers them. They are

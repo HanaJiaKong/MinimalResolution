@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__PAGE_TITLE__</title>
+<style>
+  :root{color-scheme:light;--paper:#f6f4ec;--white:#fffef9;--ink:#253835;--muted:#687771;--line:#d8dfd5;--teal:#126d67;--pale:#e7f1eb;--orange:#ae6a37;--violet:#8560a5;--shadow:0 12px 35px #2538350b}
+  *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit;color:inherit}button,select,input{border:1px solid var(--line);border-radius:7px;background:var(--white)}button,select{cursor:pointer}button{padding:7px 11px}button:hover{background:var(--pale);border-color:#9bbeb2}button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid #65b4a9;outline-offset:3px}button:disabled{opacity:.45;cursor:default}a{color:var(--teal)}h1,h2,h3,p{margin:0}h1{font:500 clamp(23px,3vw,31px)/1.15 Georgia,"Times New Roman",serif;letter-spacing:-.6px}h2{font:500 21px/1.2 Georgia,"Times New Roman",serif}h3{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:20px 0 9px}small{font-size:12px}.eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--teal);margin-bottom:5px}
+  .app{max-width:1900px;margin:auto;padding:22px 26px 14px}.masthead{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:20px}.masthead-copy{display:flex;align-items:center;gap:18px}.sigil{width:47px;height:47px;flex:0 0 47px;border:1px solid #b8ccc0;border-radius:50%;position:relative;background:#eff3e9}.sigil:before,.sigil:after{content:"";position:absolute;border:1px solid var(--teal);width:17px;height:17px;border-radius:50%;left:11px;top:16px}.sigil:after{left:19px;top:9px}.masthead-note{max-width:330px;color:var(--muted);font-size:12px;text-align:right}.offline{display:inline-flex;gap:6px;align-items:center;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--teal);margin-bottom:3px}.offline:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal)}
+  .workspace{border:1px solid var(--line);border-radius:12px;background:var(--white);box-shadow:var(--shadow);overflow:hidden}.toolbar{padding:13px 17px;display:flex;align-items:end;gap:12px;border-bottom:1px solid var(--line);flex-wrap:wrap}.field{display:grid;gap:4px}.field>label,.field-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}select{height:35px;padding:4px 31px 4px 9px;min-width:130px}.search-field{min-width:210px;flex:1;max-width:410px}.search-wrap{position:relative}.search-wrap input{height:35px;width:100%;padding:6px 32px 6px 10px}.search-clear{position:absolute;right:3px;top:3px;padding:2px 7px;border:0;background:none;font-size:18px;color:var(--muted)}.tools{display:flex;align-items:center;gap:6px;margin-left:auto}.button-pair{display:flex;gap:0}.button-pair button{border-radius:0;font-size:18px;line-height:18px;min-width:34px}.button-pair button:first-child{border-radius:7px 0 0 7px}.button-pair button+button{margin-left:-1px}.button-pair button:last-child{border-radius:0 7px 7px 0}.tools button{height:35px}.export-button{font-size:12px}
+  .chart-heading{padding:16px 20px 12px;border-bottom:1px solid #e6e9e0;display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.chart-heading h2{font-size:23px}.bounds{font-size:12px;color:var(--muted);margin-top:4px}.counts{text-align:right;font:11px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted);white-space:nowrap}.bounds .cutoff{color:var(--orange)}
+  .main{display:grid;grid-template-columns:minmax(0,1fr) 300px}.plot-column{min-width:0;position:relative}.filters{padding:10px 18px;display:flex;align-items:center;gap:15px;flex-wrap:wrap;border-bottom:1px solid #e6e9e0;min-height:42px}.filters label{display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;white-space:nowrap}.filters input{accent-color:var(--teal);width:13px;height:13px;margin:0}.filter-line{height:0;width:17px;border-top:2px solid var(--teal)}.filter-line.scalar{border-color:#91a19a}.filter-line.differential{border-color:var(--violet);border-top-style:dashed}.divider{height:15px;width:1px;background:var(--line)}
+  .plot{height:clamp(430px,65vh,830px);position:relative;background:var(--white)}#chart-svg{display:block;width:100%;height:100%;touch-action:none;cursor:grab;user-select:none}#chart-svg.dragging{cursor:grabbing}.plot-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;color:var(--muted);pointer-events:none}.plot-empty[hidden]{display:none}.plot-empty strong{display:block;font:500 24px Georgia,serif;color:var(--ink);margin-bottom:6px}.chart-status{padding:9px 18px;border-top:1px solid #e6e9e0;display:flex;justify-content:space-between;gap:16px;font-size:10px;color:var(--muted);min-height:34px}.chart-status code{font-size:11px}.sidebar{border-left:1px solid var(--line);background:#fbfbf5;padding:20px;overflow:auto;max-height:calc(clamp(430px,65vh,830px) + 76px)}.side-kicker{display:flex;justify-content:space-between;align-items:center;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);margin-bottom:12px}.close-selection{padding:0 5px;line-height:20px;border:0;background:none;font-size:17px;color:var(--muted)}.class-name{font:500 21px/1.35 Georgia,"Times New Roman",serif;overflow-wrap:anywhere}.class-id{font:10px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted);overflow-wrap:anywhere;margin-top:3px}.group-label{display:inline-block;font:12px ui-monospace,SFMono-Regular,Consolas,monospace;padding:6px 8px;background:var(--pale);border-radius:5px;margin-top:13px;overflow-wrap:anywhere;max-width:100%}.coordinates{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:17px 0}.coordinate{border-bottom:1px solid var(--line);padding-bottom:7px}.coordinate dt{font-size:10px;color:var(--muted)}.coordinate dd{margin:2px 0 0;font:16px Georgia,serif}.notice{font-size:11px;line-height:1.55;background:#f4eddf;border-left:2px solid #c29a66;padding:8px 10px;margin:12px 0;color:#735d3c}.notice.info{background:#edf2eb;border-color:#89a79a;color:#4d665b}.side-copy{font-size:12px;color:var(--muted);line-height:1.65}.side-copy+p{margin-top:10px}.legend{display:grid;gap:10px;margin-top:17px;font-size:11px;color:var(--muted)}.legend-row{display:flex;align-items:center;gap:11px}.legend-row svg{width:22px;height:22px;flex:0 0 22px}.key{display:inline-block;font:10px ui-monospace,SFMono-Regular,Consolas,monospace;border:1px solid #ccd5ca;border-bottom-width:2px;border-radius:3px;padding:0 4px;background:var(--white)}.members{margin:0;padding:0;list-style:none;display:grid;gap:5px}.members li{font:11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;padding:5px 7px;background:#eff2e9;border-radius:4px}.edge-list{display:grid;gap:6px}.edge-item{display:grid;grid-template-columns:36px minmax(0,1fr);gap:7px;align-items:start;font-size:11px}.edge-kind{font:11px Georgia,serif;color:var(--teal);padding-top:4px}.edge-kind.diff{color:var(--violet)}.edge-item button{border:0;background:#eff2e9;text-align:left;padding:5px 7px;overflow-wrap:anywhere;font-size:11px}.search-results{position:absolute;top:40px;left:0;right:0;max-height:300px;overflow:auto;border:1px solid var(--line);background:var(--white);border-radius:7px;box-shadow:var(--shadow);z-index:12;padding:5px}.search-results[hidden]{display:none}.search-results button{display:block;width:100%;border:0;background:none;text-align:left;padding:7px 8px;border-radius:4px;font-size:12px}.search-results button small{display:block;color:var(--muted);font-size:10px}.result-note{padding:8px;font-size:11px;color:var(--muted)}#tooltip{position:fixed;z-index:30;pointer-events:none;max-width:310px;padding:9px 11px;background:var(--ink);color:var(--white);border:1px solid #425d55;border-radius:7px;box-shadow:0 6px 20px #25383524;font-size:11px;white-space:pre-line;overflow-wrap:anywhere}#tooltip[hidden]{display:none}
+  .footer{display:flex;justify-content:space-between;align-items:start;gap:20px;padding:13px 2px 0;font-size:10px;color:var(--muted)}.footer details{max-width:700px}.footer summary{cursor:pointer;color:var(--teal);font-weight:600}.footer details p{margin-top:8px}.attribution{text-align:right;max-width:380px}.attribution a{text-decoration:none;border-bottom:1px solid #bdcec4}.help-modal{border:1px solid var(--line);border-radius:12px;padding:25px;background:var(--white);color:var(--ink);max-width:550px;width:calc(100% - 36px);box-shadow:0 30px 100px #25383530}.help-modal::backdrop{background:#25383550}.help-modal h2{margin-bottom:16px}.help-modal p{font-size:13px;color:var(--muted);margin-bottom:13px}.help-modal table{width:100%;border-collapse:collapse;font-size:12px;margin:15px 0}.help-modal td{border-bottom:1px solid var(--line);padding:8px 0}.help-modal td:first-child{width:42%}.help-modal form{text-align:right}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  @media(min-width:1450px){.main{grid-template-columns:minmax(0,1fr) 325px}.sidebar{padding:23px}}@media(max-width:1000px){.app{padding:17px 15px 12px}.main{grid-template-columns:minmax(0,1fr) 250px}.toolbar{gap:9px}.search-field{max-width:none;min-width:190px}.tools{margin-left:0}.sidebar{padding:16px}.masthead-note{max-width:225px}}@media(max-width:740px){.app{padding:13px 9px}.masthead{margin-bottom:15px}.sigil{display:none}.masthead-note{display:none}.toolbar{padding:11px;gap:9px}.field select{min-width:120px}.search-field{min-width:100%;order:3}.tools{margin-left:auto}.export-button{display:none}.main{grid-template-columns:1fr}.sidebar{border-left:0;border-top:1px solid var(--line);max-height:none}.plot{height:52vh;min-height:340px}.filters{gap:11px;padding:9px 12px}.chart-heading{padding:14px 13px 10px}.chart-heading h2{font-size:20px}.counts{font-size:10px}.chart-status{padding:8px 12px}.chart-status>span:last-child{display:none}.footer{flex-direction:column;gap:8px;padding:12px 4px 0}.attribution{text-align:left;max-width:none}.coordinates{grid-template-columns:repeat(4,1fr)}.legend{grid-template-columns:1fr 1fr}.sidebar h3{margin-top:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="masthead">
+    <div class="masthead-copy"><div class="sigil" aria-hidden="true"></div><div><div class="eyebrow">MinimalResolution · p = 3</div><h1>Novikov chart explorer</h1></div></div>
+    <div class="masthead-note"><div class="offline">Self-contained · offline</div><div>Explore computed classes, products,<br>and algebraic Novikov differentials.</div></div>
+  </header>
+  <main class="workspace">
+    <div class="toolbar" aria-label="Chart controls">
+      <div class="field"><label for="subject-select">Spectrum / comodule</label><select id="subject-select"></select></div>
+      <div class="field"><label for="grading-select">Chart</label><select id="grading-select"><option value="anss">Adams–Novikov E₂</option><option value="algnov">Algebraic Novikov</option></select></div>
+      <div class="field search-field"><label for="search">Find a class</label><div class="search-wrap"><input id="search" type="search" placeholder="Name or stem, filtration" autocomplete="off" aria-controls="search-results" aria-expanded="false"><button id="search-clear" class="search-clear" aria-label="Clear search" hidden>×</button><div id="search-results" class="search-results" aria-label="Search results" hidden></div></div></div>
+      <div class="tools"><div class="button-pair"><button id="zoom-out" aria-label="Zoom out" title="Zoom out (−)">−</button><button id="zoom-in" aria-label="Zoom in" title="Zoom in (+)">+</button></div><button id="fit" title="Fit the chart (0)">Fit</button><button id="svg-download" class="export-button" title="Download the current view as SVG">SVG ↓</button><button id="json-download" class="export-button" title="Download all embedded chart data as JSON">Data ↓</button><button id="help" aria-label="Chart help" title="Chart help (?)">?</button></div>
+    </div>
+    <div class="chart-heading"><div><h2 id="chart-title">Loading chart…</h2><div id="bounds" class="bounds"></div></div><div id="counts" class="counts"></div></div>
+    <div class="main">
+      <div class="plot-column">
+        <div class="filters" aria-label="Visible layers">
+          <label><input id="toggle-alpha1" type="checkbox" checked><span class="filter-line"></span>α₁ products</label>
+          <label><input id="toggle-scalar" type="checkbox" checked><span class="filter-line scalar"></span><span id="scalar-text">3 products</span></label>
+          <label><input id="toggle-differential" type="checkbox" checked><span class="filter-line differential"></span>Algebraic differentials</label>
+          <span class="divider" aria-hidden="true"></span><label><input id="toggle-grid" type="checkbox" checked>Grid</label><label><input id="toggle-labels" type="checkbox">Class labels</label>
+        </div>
+        <div id="plot" class="plot">
+          <svg id="chart-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="svg-title svg-description" tabindex="0"><title id="svg-title">Interactive Novikov chart</title><desc id="svg-description">Drag the background to pan, scroll to zoom, and click or focus a class to inspect it.</desc></svg>
+          <div id="plot-empty" class="plot-empty" hidden><div><strong>No chart data</strong><span id="empty-message">No classes are available for this view.</span></div></div>
+        </div>
+        <div class="chart-status"><span id="status" aria-live="polite">Choose a class to inspect its data.</span><span>Drag to pan · scroll to zoom · <span class="key">0</span> to fit</span></div>
+      </div>
+      <aside id="sidebar" class="sidebar" aria-label="Class information"></aside>
+    </div>
+  </main>
+  <footer class="footer"><details><summary>About this chart</summary><p>The charts display the supplied MinimalResolution tables. Adams–Novikov classes are grouped using the recorded scalar towers; algebraic Novikov classes are shown individually. Missing products, uncertain orders, and unresolved additive splittings are identified in the class panel. Algebraic Novikov differentials are not Adams–Novikov differentials.</p><p>The computation is bounded by internal degree t and resolution length. Blank space beyond those bounds does not assert vanishing. Download SVG preserves the current viewport and visible layers; Data downloads the complete embedded dataset.</p></details><div class="attribution">Interaction design adapted from <a href="https://github.com/yqkewang/ANSS_prime3/commit/f995e30f327ce83304eda57768d2c8b4260b1fe3" target="_blank" rel="noopener noreferrer">ANSS_prime3 · f995e30</a><br>and SeqSee · Joey Beauvais-Feisthauer · MIT license</div></footer>
+</div>
+<div id="tooltip" role="tooltip" hidden></div>
+<dialog id="help-dialog" class="help-modal" aria-labelledby="help-title"><h2 id="help-title">Exploring the chart</h2><p>Click a class for its grading, recorded group, tower members, and incident maps. Search by class name or by the coordinates shown on the axes, for example <strong>11, 1</strong>.</p><table><tbody><tr><td>Drag / one-finger drag</td><td>Pan the background</td></tr><tr><td>Scroll / pinch</td><td>Zoom around the pointer</td></tr><tr><td><span class="key">←</span> <span class="key">↑</span> <span class="key">↓</span> <span class="key">→</span></td><td>Pan the chart</td></tr><tr><td><span class="key">+</span> / <span class="key">−</span></td><td>Zoom in / out</td></tr><tr><td><span class="key">0</span> / Fit</td><td>Fit the computed range</td></tr><tr><td><span class="key">Esc</span></td><td>Clear search and selection</td></tr><tr><td><span class="key">Tab</span>, <span class="key">Enter</span></td><td>Focus and select a class</td></tr></tbody></table><p>Horizontal grading is the stem t − s. Vertical grading is s in the Adams–Novikov view and s + i in the algebraic Novikov view. The internal-degree cutoff is always t = (t − s) + s, including when the vertical axis is s + i.</p><form method="dialog"><button>Close</button></form></dialog>
+<script id="chart-data" type="application/json">__CHART_DATA__</script>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id), NS = 'http://www.w3.org/2000/svg';
+  let data;
+  try { data = JSON.parse($('chart-data').textContent); } catch (error) { data = {charts: []}; $('empty-message').textContent = 'The embedded chart dataset could not be read.'; }
+  const charts = Array.isArray(data.charts) ? data.charts : [];
+  const svg = $('chart-svg'), plot = $('plot'), sidebar = $('sidebar'), tooltip = $('tooltip');
+  const UX = 42, UY = 56, PAD = {left:62, right:23, top:30, bottom:53};
+  const view = {k:1, tx:0, ty:0, fit:true};
+  let chart = null, nodes = new Map(), positions = new Map(), selected = null;
+  let width = 800, height = 500, frame = null, stateMessage = '', downNode = null;
+  const pointers = new Map(); let gesture = null, dragged = false, suppressClick = false;
+  const glyphStyle = '.axis{stroke:#a9b8ac;stroke-width:1}.gridline{stroke:#e3e8de;stroke-width:1}.tick{fill:#7a8980;font:10px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.axis-label{fill:#53685e;font:12px Georgia,serif}.edge{fill:none;stroke-width:1.5;vector-effect:non-scaling-stroke}.edge-alpha1{stroke:#3c8b7e}.edge-scalar{stroke:#a0aea6;stroke-width:1.2}.edge-differential{stroke:#8560a5;stroke-width:1.7;stroke-dasharray:5 3}.node{cursor:pointer;outline:none}.node-core{fill:#334d44;stroke:#334d44;stroke-width:1.2;vector-effect:non-scaling-stroke}.node-ring{fill:none;stroke:#334d44;stroke-width:1.1;vector-effect:non-scaling-stroke}.node-selected .node-core,.node-search .node-core{fill:#126d67;stroke:#126d67}.node-selected .node-ring{stroke:#126d67}.node-killed{opacity:.45}.node-label{fill:#596b61;font:10px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;pointer-events:none}.order-label{fill:#53685e;font:9px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;pointer-events:none}.node-halo{fill:#d6eee5;stroke:#126d67;stroke-width:1.2;vector-effect:non-scaling-stroke}.node:focus .focus-ring{stroke:#126d67;stroke-width:2}.focus-ring{fill:transparent;stroke:transparent;vector-effect:non-scaling-stroke}.cutoff-line{stroke:#b89160;stroke-width:1.2;stroke-dasharray:5 5;vector-effect:non-scaling-stroke}.cutoff-label{fill:#9c7649;font:10px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.beyond-bound{fill:#bda77b;opacity:.06}';
+  function se(tag, attrs = {}, content) { const e = document.createElementNS(NS, tag); for (const [key, value] of Object.entries(attrs)) e.setAttribute(key, String(value)); if (content != null) e.textContent = String(content); return e; }
+  function el(tag, className, content) { const e = document.createElement(tag); if (className) e.className = className; if (content != null) e.textContent = String(content); return e; }
+  function appendText(parent, tag, className, text) { const e = el(tag, className, text); parent.append(e); return e; }
+  function finite(value, fallback = 0) { return Number.isFinite(Number(value)) ? Number(value) : fallback; }
+  function scalarLabel() { return chart?.scalar_label || (chart?.characteristic ? 'v' + chart.height : '3'); }
+  function name(node) { return String(node.label || node.name || node.id); }
+  function grade(node) { return `(${node.x}, ${node.y})`; }
+  function px(x) { return PAD.left + view.tx + x * UX * view.k; }
+  function py(y) { return height - PAD.bottom + view.ty - y * UY * view.k; }
+  function world(sx, sy) { return {x:(sx - PAD.left - view.tx)/(UX*view.k), y:(height-PAD.bottom+view.ty-sy)/(UY*view.k)}; }
+  function schedule() { if (frame == null) frame = requestAnimationFrame(() => { frame = null; draw(); }); }
+  // Background windows may suspend animation frames. Commit discrete chart
+  // changes synchronously so the heading and plotted grading stay in sync.
+  function flush() { if (frame != null) cancelAnimationFrame(frame); frame = null; draw(); }
+  function niceStep(pixels) { const target = 38 / pixels; if (target <= 1) return 1; const power = 10 ** Math.floor(Math.log10(target)); return [1,2,5,10].find(n => n*power >= target) * power; }
+  function layerVisible(type) { return type === 'alpha1' ? $('toggle-alpha1').checked : type === 'scalar' ? $('toggle-scalar').checked : $('toggle-differential').checked; }
+  function fit() {
+    if (!chart) return;
+    const list = chart.nodes || [], xs = list.map(n => finite(n.x)), ys = list.map(n => finite(n.y));
+    const xmin = Math.min(0, ...xs), xmax = Math.max(1, finite(chart.max_degree), ...xs), ymin = Math.min(0, ...ys), ymax = Math.max(2, ...ys);
+    const aw = Math.max(50,width-PAD.left-PAD.right), ah = Math.max(50,height-PAD.top-PAD.bottom);
+    view.k = Math.min(3, aw / ((xmax-xmin+1.6)*UX), ah / ((ymax-ymin+1.8)*UY));
+    view.tx = aw/2 - ((xmin+xmax)/2)*UX*view.k;
+    view.ty = -ah/2 + ((ymin+ymax)/2)*UY*view.k;
+    view.fit = true; flush();
+  }
+  function zoom(factor, sx = (PAD.left+width-PAD.right)/2, sy = (PAD.top+height-PAD.bottom)/2) {
+    const p = world(sx,sy), next = Math.min(12,Math.max(.05,view.k*factor));
+    view.k = next; view.tx = sx-PAD.left-p.x*UX*next; view.ty = sy-height+PAD.bottom+p.y*UY*next; view.fit = false; schedule();
+  }
+  function centerOn(node) {
+    const p = positions.get(node.id) || {x:node.x,y:node.y};
+    if (view.k < .65) view.k = .65;
+    view.tx = (width-PAD.left-PAD.right)/2-p.x*UX*view.k;
+    view.ty = -(height-PAD.top-PAD.bottom)/2+p.y*UY*view.k; view.fit = false; schedule();
+  }
+  function computePositions() {
+    positions = new Map(); const cells = new Map();
+    for (const n of chart.nodes || []) { const key = `${n.x},${n.y}`; if (!cells.has(key)) cells.set(key,[]); cells.get(key).push(n); }
+    for (const list of cells.values()) list.forEach((n,i) => { const offset = i-(list.length-1)/2; positions.set(n.id,{x:finite(n.x)+offset*.22,y:finite(n.y)+offset*.12}); });
+  }
+  function draw() {
+    const previousFocus = document.activeElement?.closest?.('[data-node]')?.getAttribute('data-node');
+    svg.replaceChildren(); svg.setAttribute('viewBox',`0 0 ${width} ${height}`);
+    svg.append(se('title',{id:'svg-title'},chart?.title || 'Interactive Novikov chart'),se('desc',{id:'svg-description'},'Horizontal axis: stem t minus s. '+(chart?.grading === 'algnov' ? 'Vertical axis: algebraic Novikov filtration s plus i.' : 'Vertical axis: homological filtration s.')+' Drag to pan, scroll to zoom, click or focus a class for details.'));
+    const defs = se('defs'); defs.append(se('style',{},glyphStyle));
+    const clip = se('clipPath',{id:'plot-clip'}); clip.append(se('rect',{x:PAD.left,y:PAD.top,width:Math.max(0,width-PAD.left-PAD.right),height:Math.max(0,height-PAD.top-PAD.bottom)})); defs.append(clip);
+    const marker = se('marker',{id:'differential-arrow',viewBox:'0 0 8 8',refX:7,refY:4,markerWidth:6,markerHeight:6,orient:'auto',markerUnits:'strokeWidth'}); marker.append(se('path',{d:'M0 1 L7 4 L0 7',fill:'none',stroke:'#8560a5','stroke-width':1.3})); defs.append(marker); svg.append(defs,se('rect',{width,height,fill:'#fffef9'}));
+    if (!chart) return;
+    const clipped = se('g',{'clip-path':'url(#plot-clip)'}), grid = se('g'), boundary = se('g');
+    const rangeA = world(PAD.left,PAD.top), rangeB = world(width-PAD.right,height-PAD.bottom), xstep = niceStep(UX*view.k), ystep = niceStep(UY*view.k);
+    if ($('toggle-grid').checked) {
+      for(let x=Math.ceil(rangeA.x/xstep)*xstep;x<=rangeB.x;x+=xstep) grid.append(se('line',{x1:px(x),x2:px(x),y1:PAD.top,y2:height-PAD.bottom,class:'gridline'}));
+      for(let y=Math.ceil(rangeB.y/ystep)*ystep;y<=rangeA.y;y+=ystep) grid.append(se('line',{x1:PAD.left,x2:width-PAD.right,y1:py(y),y2:py(y),class:'gridline'}));
+    }
+    clipped.append(grid);
+    if (chart.grading === 'anss' && Number.isFinite(Number(chart.max_degree))) {
+      const t = Number(chart.max_degree), x1=rangeA.x, x2=rangeB.x, y1=t-x1, y2=t-x2;
+      boundary.append(se('polygon',{points:`${px(x1)},${py(y1)} ${px(x2)},${py(y2)} ${width-PAD.right},${PAD.top} ${PAD.left},${PAD.top}`,class:'beyond-bound'}));
+      boundary.append(se('line',{x1:px(x1),y1:py(y1),x2:px(x2),y2:py(y2),class:'cutoff-line'}));
+      const labelX=Math.min(t-rangeB.y,rangeB.x)-.2, labelY=t-labelX;
+      if (px(labelX)>PAD.left+40 && py(labelY)>PAD.top+15) boundary.append(se('text',{x:px(labelX)-5,y:py(labelY)-8,'text-anchor':'end',class:'cutoff-label'},`t = ${t}`));
+    }
+    clipped.append(boundary);
+    const edgeGroup = se('g',{'aria-label':'Recorded maps'});
+    for (const edge of chart.edges || []) {
+      if (!layerVisible(edge.type)) continue;
+      const a = positions.get(edge.source), b = positions.get(edge.target); if (!a || !b) continue;
+      let ax=px(a.x),ay=py(a.y),bx=px(b.x),by=py(b.y); const distance=Math.hypot(bx-ax,by-ay), trim=edge.type==='differential'?8:5;
+      if (distance > 2*trim) { const dx=(bx-ax)/distance,dy=(by-ay)/distance; ax+=dx*5;ay+=dy*5;bx-=dx*trim;by-=dy*trim; }
+      const line=se('line',{x1:ax,y1:ay,x2:bx,y2:by,class:`edge edge-${edge.type}`}); if(edge.type==='differential') line.setAttribute('marker-end','url(#differential-arrow)');
+      line.append(se('title',{},`${edge.label || edge.type}: ${edge.source} → ${edge.target}`)); edgeGroup.append(line);
+    }
+    clipped.append(edgeGroup);
+    const nodeGroup = se('g',{'aria-label':'Classes'}), query = $('search').value.trim().toLowerCase();
+    for (const node of chart.nodes || []) {
+      const p=positions.get(node.id),x=px(p.x),y=py(p.y); if(x<PAD.left-45||x>width-PAD.right+45||y<PAD.top-45||y>height-PAD.bottom+45) continue;
+      const g=se('g',{transform:`translate(${x} ${y})`,class:'node'+(node.id===selected?' node-selected':'')+(query&&matches(node,query)?' node-search':'')+(node.killed?' node-killed':''),'data-node':node.id,tabindex:0,role:'button','aria-label':`${name(node)}, coordinates ${grade(node)}, ${node.group || 'group not specified'}`});
+      g.append(se('title',{},`${name(node)} · ${grade(node)} · ${node.group || ''}`));
+      if(node.id===selected)g.append(se('circle',{r:14,class:'node-halo'}));
+      g.append(se('circle',{r:13,class:'focus-ring'}));
+      if(node.kind==='box') { g.append(se('rect',{x:-5,y:-5,width:10,height:10,rx:.5,class:'node-core'}));g.append(se('text',{x:0,y:3,'text-anchor':'middle',fill:'#fffef9','font-family':'Georgia,serif','font-size':10,'pointer-events':'none'},'∞')); }
+      else {
+        g.append(se('circle',{r:3.4,class:'node-core'}));
+        if(node.kind==='circles') { const n=Math.max(1,finite(node.n,1)),rings=Math.min(4,Math.max(node.truncated?1:0,n-1));for(let r=1;r<=rings;r++){const circle=se('circle',{r:3.4+r*2.4,class:'node-ring'});if(node.truncated&&r===rings)circle.setAttribute('stroke-dasharray','2 2');g.append(circle);}if(n>5)g.append(se('text',{x:13,y:-9,class:'order-label'},`3^${n}${node.truncated?'+':''}`)); }
+      }
+      if($('toggle-labels').checked)g.append(se('text',{x:11,y:-10,class:'node-label'},name(node)));
+      g.addEventListener('pointerenter',e=>showTooltip(node,e.clientX,e.clientY));g.addEventListener('pointermove',e=>showTooltip(node,e.clientX,e.clientY));g.addEventListener('pointerleave',hideTooltip);
+      g.addEventListener('click',e=>{if(suppressClick)return;e.stopPropagation();select(node.id);});
+      g.addEventListener('focus',()=>{select(node.id);const r=g.getBoundingClientRect();showTooltip(node,r.right,r.top);});g.addEventListener('blur',hideTooltip);
+      g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();select(node.id);}});
+      nodeGroup.append(g);
+    }
+    clipped.append(nodeGroup); svg.append(clipped);
+    const axis = se('g',{'aria-hidden':'true'}), bottom=height-PAD.bottom,right=width-PAD.right;
+    axis.append(se('line',{x1:PAD.left,y1:bottom,x2:right,y2:bottom,class:'axis'}),se('line',{x1:PAD.left,y1:PAD.top,x2:PAD.left,y2:bottom,class:'axis'}));
+    for(let x=Math.ceil(rangeA.x/xstep)*xstep;x<=rangeB.x;x+=xstep){axis.append(se('line',{x1:px(x),x2:px(x),y1:bottom,y2:bottom+4,class:'axis'}),se('text',{x:px(x),y:bottom+18,'text-anchor':'middle',class:'tick'},x));}
+    for(let y=Math.ceil(rangeB.y/ystep)*ystep;y<=rangeA.y;y+=ystep){axis.append(se('line',{x1:PAD.left-4,x2:PAD.left,y1:py(y),y2:py(y),class:'axis'}),se('text',{x:PAD.left-10,y:py(y)+3,'text-anchor':'end',class:'tick'},y));}
+    axis.append(se('text',{x:(PAD.left+right)/2,y:height-12,'text-anchor':'middle',class:'axis-label'},'Stem  t − s'),se('text',{transform:`translate(17 ${(PAD.top+bottom)/2}) rotate(-90)`,'text-anchor':'middle',class:'axis-label'},chart.grading==='algnov'?'Algebraic Novikov filtration  s + i':'Homological filtration  s'));
+    svg.append(axis);
+    if(previousFocus){const focused=Array.from(nodeGroup.children).find(e=>e.getAttribute('data-node')===previousFocus);if(focused)focused.focus({preventScroll:true});else svg.focus({preventScroll:true});}
+    $('counts').textContent=`${(chart.nodes||[]).length} ${chart.grading==='anss'?'summands':'classes'} · ${(chart.edges||[]).filter(e=>layerVisible(e.type)).length} visible maps`;
+    $('status').textContent=stateMessage || (selected ? `Selected ${name(nodes.get(selected))} at ${grade(nodes.get(selected))}` : `${chart.grading==='anss'?'Adams–Novikov E₂':'Algebraic Novikov'} · ${(view.k*100).toFixed(0)}% scale`);
+  }
+  function showTooltip(node,x,y) { tooltip.textContent=`${name(node)}\n(t − s, ${chart.grading==='algnov'?'s + i':'s'}) = ${grade(node)} · t = ${node.t}\n${node.group || 'Group not specified'}${node.truncated?'\nVisible tower gives a lower bound.':''}`;tooltip.hidden=false;tooltip.style.left=Math.min(x+14,window.innerWidth-tooltip.offsetWidth-12)+'px';tooltip.style.top=Math.max(8,Math.min(y+14,window.innerHeight-tooltip.offsetHeight-12))+'px'; }
+  function hideTooltip(){tooltip.hidden=true;}
+  function notice(text,info=false){return el('p','notice'+(info?' info':''),text);}
+  function readingNotes() {
+    appendText(sidebar,'h3','','Reading the chart');
+    const legend=el('div','legend');
+    const symbols=[['box','Z_(3) · torsion-free'],['dot',chart?.grading==='algnov'?'Associated-graded basis class':'Z/3'],['rings','Higher powers of 3'],['truncated','Order only bounded below']];
+    for(const [type,label]of symbols){if((chart?.grading==='algnov'||chart?.characteristic)&&type!=='dot')continue;const row=el('div','legend-row'),icon=se('svg',{viewBox:'0 0 22 22','aria-hidden':'true'});if(type==='box')icon.append(se('rect',{x:6,y:6,width:10,height:10,fill:'#334d44'}),se('text',{x:11,y:14,'text-anchor':'middle',fill:'#fffef9','font-size':10},'∞'));else{icon.append(se('circle',{cx:11,cy:11,r:3,fill:'#334d44'}));if(type!=='dot'){icon.append(se('circle',{cx:11,cy:11,r:6,fill:'none',stroke:'#334d44'}));const ring=se('circle',{cx:11,cy:11,r:9,fill:'none',stroke:'#334d44'});if(type==='truncated')ring.setAttribute('stroke-dasharray','2 2');icon.append(ring);}}row.append(icon,el('span','',label));legend.append(row);}sidebar.append(legend);
+    if(chart?.grading==='algnov')sidebar.append(notice('The vertical axis is s + i, not s. The cutoff t = (t − s) + s therefore has no single diagonal boundary in this view.',true));
+    else sidebar.append(notice(`The dashed boundary marks t = ${chart?.max_degree}. Space beyond it is outside the computation.`,true));
+    if(chart?.grading==='anss'&&!chart.characteristic)sidebar.append(el('p','side-copy','Classes sharing a bidegree may have an unresolved additive splitting. Inspect the panel for the recorded tower information.'));
+  }
+  function updateSidebar() {
+    sidebar.replaceChildren();const kicker=el('div','side-kicker');kicker.append(el('span','','Class inspector'));if(selected){const close=el('button','close-selection','×');close.setAttribute('aria-label','Clear selected class');close.addEventListener('click',()=>select(null));kicker.append(close);}sidebar.append(kicker);
+    const node=nodes.get(selected);
+    if(!node){appendText(sidebar,'h2','',chart?'Select a class':'No chart loaded');appendText(sidebar,'p','side-copy',chart?'Click a marker to inspect its grading, tower members, and recorded maps. Use the search box to jump to a class or bidegree.':'Export a completed resolution to populate the explorer.');if(chart)readingNotes();}
+    else {
+      appendText(sidebar,'h2','class-name',name(node));if(name(node)!==node.id)appendText(sidebar,'p','class-id',node.id);appendText(sidebar,'div','group-label',node.group||'Group not specified');
+      const dl=el('dl','coordinates');for(const [term,value]of [['Stem t − s',node.x],['Homological s',node.s],['Internal t',node.t],['Algebraic s + i',node.algnov]]){const item=el('div','coordinate');item.append(el('dt','',term),el('dd','',value??'—'));dl.append(item);}sidebar.append(dl);
+      if(node.truncated)sidebar.append(notice('The visible scalar tower only gives a lower bound on the order. Its dashed outer ring does not assert an exact group order.'));
+      if(chart.grading==='anss'&&!chart.characteristic&&finite(node.cohabitants,1)>1)sidebar.append(notice(`${node.cohabitants} recorded towers share this bidegree. The tables do not determine the additive splitting here.`));
+      if(node.killed)sidebar.append(notice('This associated-graded class is marked as killed in the recorded algebraic Novikov data.'));
+      if(chart.grading==='algnov')sidebar.append(notice('This marker is an associated-graded basis class. Incident differentials belong to the algebraic Novikov spectral sequence.',true));
+      appendText(sidebar,'h3','',chart.grading==='anss'?'Recorded tower members':'Recorded basis class');const members=el('ul','members');for(const member of node.members||[node.name||node.id])members.append(el('li','',typeof member==='string'?member:JSON.stringify(member)));sidebar.append(members);
+      const incident=(chart.edges||[]).filter(e=>e.source===node.id||e.target===node.id);
+      for(const incoming of [false,true]){appendText(sidebar,'h3','',incoming?'Incoming maps':'Outgoing maps');const edges=incident.filter(e=>incoming?e.target===node.id:e.source===node.id);if(!edges.length){appendText(sidebar,'p','side-copy','None recorded in these tables.');continue;}const list=el('div','edge-list');for(const edge of edges){const target=nodes.get(incoming?edge.source:edge.target),row=el('div','edge-item'),kind=el('span','edge-kind'+(edge.type==='differential'?' diff':''),edge.label||edge.type),button=el('button','',(incoming?'← ':'→ ')+(target?name(target):(incoming?edge.source:edge.target)));button.title=(edge.type==='differential'?'Algebraic Novikov differential':'Recorded product')+(target?' · '+grade(target):'');button.addEventListener('click',()=>{if(target){select(target.id);centerOn(target);}});row.append(kind,button);list.append(row);}sidebar.append(list);}
+      appendText(sidebar,'h3','','Computation bounds');appendText(sidebar,'p','side-copy',`t = ${node.x} + ${node.s} = ${node.t}; computed through t ≤ ${chart.max_degree}. Resolution length: ${chart.resolution_length??'not recorded'}.`);
+    }
+    if(chart?.warnings?.length){appendText(sidebar,'h3','','Source notes');for(const warning of chart.warnings)sidebar.append(notice(warning));}
+  }
+  function select(id,redraw=true){if(id!=null&&!nodes.has(id))return;const changed=selected!==id;selected=id;stateMessage='';if(changed)updateSidebar();if(redraw&&changed)schedule();}
+  function matches(node,query){const coordinate=query.match(/^\s*(-?\d+)\s*[,;:]\s*(-?\d+)\s*$/);if(coordinate)return finite(node.x)===Number(coordinate[1])&&finite(node.y)===Number(coordinate[2]);return [node.name,node.label,node.id,...(node.members||[])].some(v=>String(v??'').toLowerCase().includes(query));}
+  function hideResults(){$('search-results').hidden=true;$('search').setAttribute('aria-expanded','false');}
+  function searchResults(){const query=$('search').value.trim().toLowerCase(),box=$('search-results');box.replaceChildren();$('search-clear').hidden=!query;if(!query){hideResults();schedule();return;}const found=(chart?.nodes||[]).filter(n=>matches(n,query));if(!found.length)appendText(box,'div','result-note','No matching class in this view.');for(const node of found.slice(0,40)){const button=el('button','',name(node));button.append(el('small','',`(${node.x}, ${node.y}) · t = ${node.t} · ${node.group||''}`));button.addEventListener('click',()=>{select(node.id);centerOn(node);hideResults();$('search').blur();});box.append(button);}if(found.length>40)appendText(box,'div','result-note',`${found.length} matches; showing the first 40. Refine your search.`);box.hidden=false;$('search').setAttribute('aria-expanded','true');schedule();}
+  function setChart(next,updateHash=true){chart=next;selected=null;nodes=new Map((chart?.nodes||[]).map(n=>[n.id,n]));stateMessage='';$('search').value='';$('search-clear').hidden=true;hideResults();hideTooltip();if(!chart){$('chart-title').textContent='No chart available';$('plot-empty').hidden=false;$('subject-select').disabled=true;$('grading-select').disabled=true;updateSidebar();flush();return;}
+    $('subject-select').value=chart.subject;$('grading-select').value=chart.grading;
+    for(const option of $('grading-select').options)option.disabled=!charts.some(c=>c.subject===chart.subject&&c.grading===option.value);
+    $('chart-title').textContent=chart.title;$('bounds').replaceChildren(el('span','cutoff',`Internal degree t ≤ ${chart.max_degree}`),document.createTextNode(` · resolution length ${chart.resolution_length??'not recorded'} · ${chart.grading==='algnov'?'t = (t − s) + s; vertical axis = s + i':'t = (t − s) + s'}`));
+    $('scalar-text').textContent=scalarLabel()+' products';$('toggle-differential').disabled=chart.grading!=='algnov';$('toggle-differential').closest('label').style.opacity=chart.grading==='algnov'?'1':'.4';$('plot-empty').hidden=!!chart.nodes?.length;computePositions();updateSidebar();fit();
+    if(updateHash){try{history.replaceState(null,'','#chart='+encodeURIComponent(chart.id));}catch{}}
+  }
+  const subjects=new Map();for(const c of charts)if(!subjects.has(c.subject))subjects.set(c.subject,c.subject_label||c.subject);for(const [value,label]of subjects){const option=el('option','',label);option.value=value;$('subject-select').append(option);}
+  $('subject-select').addEventListener('change',()=>setChart(charts.find(c=>c.subject===$('subject-select').value&&c.grading===$('grading-select').value)||charts.find(c=>c.subject===$('subject-select').value)));
+  $('grading-select').addEventListener('change',()=>setChart(charts.find(c=>c.subject===$('subject-select').value&&c.grading===$('grading-select').value)));
+  for(const id of ['toggle-alpha1','toggle-scalar','toggle-differential','toggle-grid','toggle-labels'])$(id).addEventListener('change',flush);
+  $('zoom-in').addEventListener('click',()=>{zoom(1.3);flush();});$('zoom-out').addEventListener('click',()=>{zoom(1/1.3);flush();});$('fit').addEventListener('click',fit);
+  $('search').addEventListener('input',searchResults);$('search').addEventListener('focus',()=>{if($('search').value)searchResults();});$('search-clear').addEventListener('click',()=>{$('search').value='';searchResults();$('search').focus();});
+  $('search').addEventListener('keydown',e=>{if(e.key==='Enter'){const found=(chart?.nodes||[]).find(n=>matches(n,$('search').value.trim().toLowerCase()));if(found){select(found.id);centerOn(found);hideResults();e.preventDefault();}}else if(e.key==='Escape'){hideResults();$('search').blur();}});
+  document.addEventListener('pointerdown',e=>{if(!e.target.closest('.search-wrap'))hideResults();});
+  function local(event){const rect=svg.getBoundingClientRect();return {x:event.clientX-rect.left,y:event.clientY-rect.top};}
+  svg.addEventListener('wheel',e=>{if(!chart)return;e.preventDefault();const p=local(e);zoom(Math.exp(-Math.max(-100,Math.min(100,e.deltaY))*.003),p.x,p.y);hideTooltip();},{passive:false});
+  function beginGesture(){const ps=[...pointers.values()];if(ps.length===1)gesture={type:'pan',x:ps[0].x,y:ps[0].y,tx:view.tx,ty:view.ty};else if(ps.length>=2){const a=ps[0],b=ps[1],mx=(a.x+b.x)/2,my=(a.y+b.y)/2;gesture={type:'pinch',distance:Math.max(1,Math.hypot(a.x-b.x,a.y-b.y)),k:view.k,anchor:world(mx,my)};}}
+  svg.addEventListener('pointerdown',e=>{if(e.button!==0||!chart)return;const p=local(e);pointers.set(e.pointerId,p);downNode=e.target.closest('[data-node]')?.getAttribute('data-node')||null;dragged=false;beginGesture();svg.setPointerCapture(e.pointerId);svg.classList.add('dragging');});
+  svg.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId)||!gesture)return;const p=local(e);pointers.set(e.pointerId,p);if(gesture.type==='pinch'){const ps=[...pointers.values()];if(ps.length<2)return;const a=ps[0],b=ps[1],mx=(a.x+b.x)/2,my=(a.y+b.y)/2;view.k=Math.min(12,Math.max(.05,gesture.k*Math.hypot(a.x-b.x,a.y-b.y)/gesture.distance));view.tx=mx-PAD.left-gesture.anchor.x*UX*view.k;view.ty=my-height+PAD.bottom+gesture.anchor.y*UY*view.k;dragged=true;}else{const dx=p.x-gesture.x,dy=p.y-gesture.y;if(Math.hypot(dx,dy)>4)dragged=true;if(dragged){view.tx=gesture.tx+dx;view.ty=gesture.ty+dy;}}if(dragged){view.fit=false;hideTooltip();schedule();}});
+  function endPointer(e){if(!pointers.has(e.pointerId))return;pointers.delete(e.pointerId);if(!dragged&&downNode)select(downNode);suppressClick=dragged;setTimeout(()=>{suppressClick=false;},0);downNode=null;if(pointers.size)beginGesture();else{gesture=null;svg.classList.remove('dragging');}if(svg.hasPointerCapture(e.pointerId))svg.releasePointerCapture(e.pointerId);}
+  svg.addEventListener('pointerup',endPointer);svg.addEventListener('pointercancel',endPointer);svg.addEventListener('dblclick',e=>{if(!e.target.closest('[data-node]')){const p=local(e);zoom(1.6,p.x,p.y);}});
+  $('help').addEventListener('click',()=>{$('help-dialog').showModal();});
+  window.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||$('help-dialog').open)return;if(e.target.closest('input,select,textarea,button,[contenteditable="true"]'))return;const actions={ArrowLeft:()=>{view.tx+=42;},ArrowRight:()=>{view.tx-=42;},ArrowUp:()=>{view.ty+=42;},ArrowDown:()=>{view.ty-=42;},'+':()=>zoom(1.3),'=':()=>zoom(1.3),'-':()=>zoom(1/1.3),'_':()=>zoom(1/1.3),'0':fit,Escape:()=>{hideResults();select(null);hideTooltip();},'?':()=>$('help-dialog').showModal()};if(actions[e.key]){e.preventDefault();if(e.key.startsWith('Arrow'))view.fit=false;actions[e.key]();flush();}});
+  function download(content,mime,filename){const blob=new Blob([content],{type:mime}),url=URL.createObjectURL(blob),a=el('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  $('json-download').addEventListener('click',()=>download(JSON.stringify(data,null,2)+'\n','application/json;charset=utf-8','minimalresolution-charts.json'));
+  $('svg-download').addEventListener('click',()=>{if(!chart)return;flush();const clone=svg.cloneNode(true);clone.setAttribute('xmlns',NS);clone.setAttribute('width',width);clone.setAttribute('height',height);clone.removeAttribute('tabindex');for(const node of clone.querySelectorAll('[tabindex]'))node.removeAttribute('tabindex');download('<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(clone),'image/svg+xml;charset=utf-8',chart.id.replace(/[^a-z0-9_-]+/gi,'-')+'.svg');});
+  const resize=()=>{const rect=plot.getBoundingClientRect(),oldWidth=width,oldHeight=height;const center=world((PAD.left+oldWidth-PAD.right)/2,(PAD.top+oldHeight-PAD.bottom)/2);width=Math.max(200,rect.width);height=Math.max(200,rect.height);if(view.fit)fit();else{view.tx=(width-PAD.left-PAD.right)/2-center.x*UX*view.k;view.ty=-(height-PAD.top-PAD.bottom)/2+center.y*UY*view.k;schedule();}};
+  if(window.ResizeObserver)new ResizeObserver(resize).observe(plot);else window.addEventListener('resize',resize);
+  let requested=null;try{requested=new URLSearchParams(location.hash.slice(1)).get('chart');}catch{}setChart(charts.find(c=>c.id===requested)||charts[0]||null,false);resize();
+  window.addEventListener('hashchange',()=>{const id=new URLSearchParams(location.hash.slice(1)).get('chart'),next=charts.find(c=>c.id===id);if(next&&next!==chart)setChart(next,false);});
+})();
+</script>
+</body>
+</html>

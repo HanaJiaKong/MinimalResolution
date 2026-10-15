@@ -1,0 +1,12 @@
+Interactive chart interaction conventions adapted from the MIT-licensed SeqSee template vendored in ANSS_prime3.
+
+Reference repository: https://github.com/yqkewang/ANSS_prime3
+Reference commit: f995e30f327ce83304eda57768d2c8b4260b1fe3
+Reference file: vendor/seqsee/seqsee/template.html.jinja
+Upstream: https://github.com/JoeyBF/SeqSee
+Upstream vendored revision: 0d58da078357ee065f9554ee09c0d27fa52b814f
+License: MIT, copyright (c) 2024 Joey Beauvais-Feisthauer (SEQSEE_LICENSE.txt).
+
+Local adaptation: offline vanilla SVG frontend with native pointer pan/zoom, chart switching, keyboard navigation and tooltips. Extended with a persistent class inspector, cyclic-summand glyphs, product filtering, search, and downloads. This is a purpose-built adaptation, not an unmodified SeqSee installation.
+
+The converter is newly written for MinimalResolution text tables and reuses anss_chart.py for parsing and cyclic-summand grouping. It does not import the solver CSV converter or compute ANSS differentials. No dependencies on sibling checkouts, pip packages, remote scripts, fonts, or a web server.
